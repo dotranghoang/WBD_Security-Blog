@@ -1,9 +1,10 @@
 package com.codegym;
 
-import com.codegym.repository.BlogRepository;
-import com.codegym.repository.impl.BlogRepositoryImpl;
+import com.codegym.formatter.CategoryFormatter;
 import com.codegym.service.BlogService;
+import com.codegym.service.CategoryService;
 import com.codegym.service.impl.BlogServiceImpl;
+import com.codegym.service.impl.CategoryServiceImpl;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -11,6 +12,9 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -35,6 +39,8 @@ import java.util.Properties;
 @EnableWebMvc
 @ComponentScan("com.codegym.controller")
 @EnableTransactionManagement
+@EnableJpaRepositories("com.codegym.repository")
+@EnableSpringDataWebSupport
 public class ApplicationConfig  extends WebMvcConfigurerAdapter implements ApplicationContextAware {
     //Thymeleaf Configuration
     private ApplicationContext applicationContext;
@@ -114,12 +120,17 @@ public class ApplicationConfig  extends WebMvcConfigurerAdapter implements Appli
     }
 
     @Bean
-    public BlogRepository blogRepository() {
-        return new BlogRepositoryImpl();
+    public BlogService blogService() {
+        return new BlogServiceImpl();
     }
 
     @Bean
-    public BlogService blogService() {
-        return new BlogServiceImpl();
+    public CategoryService categoryService(){
+        return new CategoryServiceImpl();
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new CategoryFormatter(applicationContext.getBean(CategoryService.class)));
     }
 }
