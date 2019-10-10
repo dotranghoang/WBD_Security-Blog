@@ -6,9 +6,9 @@
 </head>
 <body>
 <p><h1 class="title">Are you sure?</h1></p>
-<p><a href="/category">Back to list category</a></p>
+<p><a href="/usercategory">Back to list category</a></p>
 <div>
-<form th:action="@{/remove-category}" th:object="${category}" method="post">
+<form th:action="@{/adminremove-category}" th:object="${category}" method="post">
     <table border="1">
         <tr>
             <td>Name:</td>

@@ -22,9 +22,11 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.spring4.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring4.view.ThymeleafViewResolver;
@@ -43,18 +45,44 @@ import java.util.Properties;
 @EnableSpringDataWebSupport
 public class ApplicationConfig  extends WebMvcConfigurerAdapter implements ApplicationContextAware {
     //Thymeleaf Configuration
-    private ApplicationContext applicationContext;
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
-    }
+//    private ApplicationContext applicationContext;
+//
+//    @Override
+//    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+//        this.applicationContext = applicationContext;
+//    }
+//
+//    @Bean
+//    public SpringResourceTemplateResolver templateResolver() {
+//        SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
+//        templateResolver.setApplicationContext(applicationContext);
+//        templateResolver.setPrefix("/WEB-INF/views");
+//        templateResolver.setSuffix(".html");
+//        templateResolver.setTemplateMode(TemplateMode.HTML);
+//        templateResolver.setCharacterEncoding("UTF-8");
+//        return templateResolver;
+//    }
+//
+//    @Bean
+//    public TemplateEngine templateEngine() {
+//        TemplateEngine templateEngine = new SpringTemplateEngine();
+//        templateEngine.setTemplateResolver(templateResolver());
+//        return templateEngine;
+//    }
+//
+//    @Bean
+//    public ThymeleafViewResolver viewResolver() {
+//        ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
+//        viewResolver.setTemplateEngine(templateEngine());
+//        viewResolver.setCharacterEncoding("UTF-8");
+//        return viewResolver;
+//    }
 
     @Bean
-    public SpringResourceTemplateResolver templateResolver() {
+    public SpringResourceTemplateResolver templateResolver(){
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
         templateResolver.setApplicationContext(applicationContext);
-        templateResolver.setPrefix("/WEB-INF/views");
+        templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
         templateResolver.setCharacterEncoding("UTF-8");
@@ -62,18 +90,25 @@ public class ApplicationConfig  extends WebMvcConfigurerAdapter implements Appli
     }
 
     @Bean
-    public TemplateEngine templateEngine() {
+    public TemplateEngine templateEngine(){
         TemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.addDialect(new SpringSecurityDialect());
         return templateEngine;
     }
 
     @Bean
-    public ThymeleafViewResolver viewResolver() {
+    public ViewResolver viewResolver(){
         ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
         viewResolver.setTemplateEngine(templateEngine());
         viewResolver.setCharacterEncoding("UTF-8");
         return viewResolver;
+    }
+    private ApplicationContext applicationContext;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 
     //JPA configuration

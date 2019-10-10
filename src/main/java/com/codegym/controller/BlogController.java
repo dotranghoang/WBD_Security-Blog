@@ -27,7 +27,7 @@ public class BlogController {
         return categoryService.findAll();
     }
 
-    @RequestMapping("/list")
+    @RequestMapping("/userlist")
     public ModelAndView getAllBlog(@RequestParam("s")Optional<String> s, Pageable pageable) {
 
         Page<Blog> blogList;
@@ -42,7 +42,7 @@ public class BlogController {
         return modelAndView;
     }
 
-    @GetMapping("/create")
+    @GetMapping("/admincreate")
     public ModelAndView createForm(){
         ModelAndView modelAndView = new ModelAndView("/blog/create");
         modelAndView.addObject("blog", new Blog());
@@ -50,7 +50,7 @@ public class BlogController {
         return modelAndView;
     }
 
-    @PostMapping("/save-blog")
+    @PostMapping("/adminsave-blog")
     public ModelAndView saveBlog(@ModelAttribute Blog blog) {
         blogService.save(blog);
 
@@ -60,7 +60,7 @@ public class BlogController {
         return modelAndView;
     }
 
-    @GetMapping("/read/{id}")
+    @GetMapping("/userread/{id}")
     public ModelAndView readContent(@PathVariable Long id) {
         Blog blog = blogService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/blog/read");
@@ -69,7 +69,7 @@ public class BlogController {
         return modelAndView;
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/adminedit/{id}")
     public ModelAndView showEditForm(@PathVariable Long id) {
         Blog blog = blogService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/blog/edit");
@@ -78,7 +78,7 @@ public class BlogController {
         return modelAndView;
     }
 
-    @PostMapping("/update-blog")
+    @PostMapping("/adminupdate-blog")
     public ModelAndView updateBlog(@ModelAttribute Blog blog) {
         blogService.save(blog);
 
@@ -89,7 +89,7 @@ public class BlogController {
         return modelAndView;
     }
 
-    @GetMapping("/remove/{id}")
+    @GetMapping("/adminremove/{id}")
     public ModelAndView showRemoveForm(@PathVariable Long id){
         Blog blog = blogService.findById(id);
         ModelAndView modelAndView = new ModelAndView("/blog/remove");
@@ -98,7 +98,7 @@ public class BlogController {
         return modelAndView;
     }
 
-    @PostMapping("/delete-blog")
+    @PostMapping("/admindelete-blog")
     public String removeBlog(@ModelAttribute ("blog") Blog blog) {
         blogService.remove(blog.getId());
         return "redirect:list";

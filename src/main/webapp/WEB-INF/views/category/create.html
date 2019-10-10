@@ -7,13 +7,13 @@
 <body>
 <p><h1 class="title">Create New Category</h1> </p>
 <p>
-    <a href="/category">Back to list category</a>
+    <a href="/usercategory">Back to list category</a>
 </p>
 <th:block th:if="${message}">
     <p th:text="${message}"></p>
 </th:block>
 
-<form th:action="@{/save-category}" th:object="${category}" method="post">
+<form th:action="@{/adminsave-category}" th:object="${category}" method="post">
     <table border="1">
         <tr>
             <td>Name: </td>

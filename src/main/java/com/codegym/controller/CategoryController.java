@@ -18,11 +18,11 @@ public class CategoryController {
     private BlogService blogService;
 
     @RequestMapping("/")
-    public ModelAndView home(){
-        return listCategory();
+    public String home(){
+        return "redirect:usercategory";
     }
 
-    @GetMapping("/category")
+    @GetMapping("/usercategory")
     public ModelAndView listCategory(){
         Iterable<Category> categories = categoryService.findAll();
 
@@ -32,7 +32,7 @@ public class CategoryController {
         return modelAndView;
     }
 
-    @GetMapping("/create-category")
+    @GetMapping("/admincreate-category")
     public ModelAndView showCreateForm(){
         ModelAndView modelAndView = new ModelAndView("/category/create");
         modelAndView.addObject("category",new Category());
@@ -40,7 +40,7 @@ public class CategoryController {
         return modelAndView;
     }
 
-    @PostMapping("/save-category")
+    @PostMapping("/adminsave-category")
     public ModelAndView saveCategory(@ModelAttribute("category") Category category){
         categoryService.save(category);
 
@@ -51,7 +51,7 @@ public class CategoryController {
         return modelAndView;
     }
 
-    @GetMapping("/edit-category/{id}")
+    @GetMapping("/adminedit-category/{id}")
     public ModelAndView showEditForm(@PathVariable Long id){
         Category category = categoryService.findById(id);
 
@@ -61,7 +61,7 @@ public class CategoryController {
         return modelAndView;
     }
 
-    @PostMapping("/update-category")
+    @PostMapping("/adminupdate-category")
     public ModelAndView updateCategory(@ModelAttribute("category") Category category) {
         categoryService.save(category);
 
@@ -72,7 +72,7 @@ public class CategoryController {
         return modelAndView;
     }
 
-    @GetMapping("/remove-category/{id}")
+    @GetMapping("/adminremove-category/{id}")
     public ModelAndView showDeleteForm(@PathVariable Long id){
         Category category = categoryService.findById(id);
 
@@ -82,14 +82,14 @@ public class CategoryController {
         return modelAndView;
     }
 
-    @PostMapping("/remove-category")
+    @PostMapping("/admindelete-category")
     public ModelAndView removeCategory(@ModelAttribute("category") Category category){
         categoryService.remove(category.getId());
 
         return listCategory();
     }
 
-    @GetMapping("/view-category/{id}")
+    @GetMapping("/userview-category/{id}")
     public ModelAndView viewMore(@PathVariable ("id") Long id){
         Category category = categoryService.findById(id);
 

@@ -6,11 +6,11 @@
 </head>
 <body>
 <h1 class="title">Edit Blog</h1>
-<p><a href="/list">Back to list blog</a></p>
+<p><a href="/userlist">Back to list blog</a></p>
 <th:block th:if="${message}">
     <p th:text="${message}">
 </th:block>
-<form th:action="@{/update-blog}" th:object="${blog}" method="post">
+<form th:action="@{/adminupdate-blog}" th:object="${blog}" method="post">
     <table border="1">
         <td><input type="hidden" th:field="*{id}"></td>
         <tr>
